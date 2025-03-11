@@ -7,8 +7,7 @@ describe('AppComponent - without TestBed', () => {
   beforeEach(() => {
     component = new AppComponent();
   });
-
-  //Rename Variable
+  
   it('convertsSingleDigitRoman', () => {
     convertsSingleDigitRoman();
 
@@ -18,4 +17,10 @@ describe('AppComponent - without TestBed', () => {
       expect(component.convert('X')).toEqual(10);
     }
   });
+
+  it('romanNumeralAddition', ()=>{
+    expect(component.convert('II')).toEqual(2);
+    expect(component.convert('III')).toEqual(3);
+    expect(component.convert('VI')).toEqual(6);
+  })
 });
