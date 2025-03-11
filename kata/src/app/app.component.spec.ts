@@ -1,26 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { convertToParamMap } from '@angular/router';
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });  
+describe('AppComponent - without TestBed', () => {
+  let component: AppComponent
+
+  beforeEach(()=>{
+    component = new AppComponent()
+  })
 
   //Rename Variable
   it('convertsSingleDigitRoman', ()=>{
     convertsSingleDigitRoman()
 
     function convertsSingleDigitRoman(){
-      const arabic = convert("I")
+      const arabic = component.convert("I")
       expect(arabic).toEqual(1)
-    }
-
-    function convert(romanNumeral:string){
-     return 1 
-    }
+    }    
   })
   
 });
