@@ -17,7 +17,7 @@ Pretty simple, right? Well this is where it gets interesting:
 
 	- Once the sell by date has passed, Quality degrades twice as fast (一旦售賣日期過期，品質下降的速度會加倍。)
 	- The Quality of an item is never negative (物品的品質永遠不會是負數)
-	- "Aged Brie" actually increases in Quality the older it gets
+	- "Aged Brie" actually increases in Quality the older it gets (Aged Brie 隨著時間的推移其品質會提高)
 	- The Quality of an item is never more than 50
 	- "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
 	- "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
