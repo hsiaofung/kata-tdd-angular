@@ -43,6 +43,12 @@ describe('GildedRoseComponent', () => {
     expect(item.quality).toEqual(26);
   });
 
+  it('testAgedBrieNeverExpires', () => {
+    const item = createAndUpdate(0, 42, 'Aged Brie');
+    expect(-1).toEqual(item.sellIn);
+    expect(44).toEqual(item.quality);
+  });
+
   function createAndUpdate(sellIn: number, quality: number, name:string) {
     const item: Item[] = [{ name, sellIn, quality }];
     component.items = item; // 赋值 Input 数据
