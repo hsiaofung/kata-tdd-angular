@@ -3,48 +3,46 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Item } from './type';
 
 describe('GildedRoseComponent', () => {
-  let component: GildedRoseComponent;  
+  let component: GildedRoseComponent;
   let fixture: ComponentFixture<GildedRoseComponent>;
-  
-  beforeEach(async ()=>{
+
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GildedRoseComponent]
+      imports: [GildedRoseComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(GildedRoseComponent);
     component = fixture.componentInstance;
     component.items = [{ name: 'foo', sellIn: 0, quality: 0 }]; // 赋值 Input 数据
     fixture.detectChanges(); // 让 Angular 侦测数据变化
-  })  
+  });
 
-  it('testFrameworkWorks', ()=>{        
+  it('testFrameworkWorks', () => {
     expect(component).toBeTruthy();
-    component.updateQuality()
-    expect(component.items[0].name).toEqual("foo")
-  })
+    component.updateQuality();
+    expect(component.items[0].name).toEqual('foo');
+  });
 
-  it('systemLowerValues', ()=>{
-    const item:Item[] = [{name:'foo', sellIn:15, quality:25}]
+  it('systemLowerValues', () => {
+    const item = createAndUpdate(15, 25);
+    expect(item.sellIn).toEqual(14);
+    expect(item.quality).toEqual(24);
+  });
+
+  it('qualityDegradesTwiceAsFast', () => {
+    const item = createAndUpdate(0, 17);
+    expect(item.quality).toEqual(15);
+  });
+
+  it('qualityIsNeverNegative', () => {
+    const item = createAndUpdate(5, 0);
+    expect(item.quality).toEqual(0);
+  });
+
+  function createAndUpdate(sellIn: number, quality: number) {
+    const item: Item[] = [{ name: 'Item', sellIn, quality }];
     component.items = item; // 赋值 Input 数据
     fixture.detectChanges(); // 让 Angular 侦测数据变化
-    component.updateQuality()
-    expect(component.items[0].sellIn).toEqual(14)
-    expect(component.items[0].quality).toEqual(24)
-  })
-
-  it('qualityDegradesTwiceAsFast', ()=>{
-    const item:Item[] = [{name:'Expire Item', sellIn:0, quality:17}]
-    component.items = item; // 赋值 Input 数据
-    fixture.detectChanges(); // 让 Angular 侦测数据变化
-    component.updateQuality()
-    expect(component.items[0].quality).toEqual(15)
-  })
-
-  it('qualityIsNeverNegative', ()=>{
-    const item:Item[] = [{name:'Non-Negative Item', sellIn:5, quality:0}]
-    component.items = item; // 赋值 Input 数据
-    fixture.detectChanges(); // 让 Angular 侦测数据变化
-    component.updateQuality()
-    expect(component.items[0].quality).toEqual(0)
-  })
- 
+    component.updateQuality();
+    return component.items[0];
+  }
 });
