@@ -15,6 +15,9 @@ describe('AppComponent - without TestBed', () => {
       expect(component.convert('I')).toEqual(1);
       expect(component.convert('V')).toEqual(5);
       expect(component.convert('X')).toEqual(10);
+      expect(component.convert('L')).toEqual(50);
+      expect(component.convert('C')).toEqual(100);
+      expect(component.convert('D')).toEqual(500)
     }
   });
 

@@ -49,7 +49,39 @@ describe('GildedRoseComponent', () => {
     expect(44).toEqual(item.quality);
   });
 
-  function createAndUpdate(sellIn: number, quality: number, name:string) {
+  it('backstagePassMaximumQuality', () => {
+    const item = createAndUpdate(
+      10,
+      48,
+      'Backstage passes to a TAFKAL80ETC concert'
+    );
+    expect(50).toEqual(item.quality);
+  });
+
+  it('backstagePassQualityDoesNotExceed50', () => {
+    const item = createAndUpdate(
+      10,
+      49,
+      'Backstage passes to a TAFKAL80ETC concert'
+    );
+    expect(50).toEqual(item.quality);
+  });
+
+  it('backstagePassSellInSmallerThan5DaysBy3', () => {
+    const item = createAndUpdate(
+      5,
+      40,
+      'Backstage passes to a TAFKAL80ETC concert'
+    );
+    expect(43).toEqual(item.quality);
+  });
+
+  it('testbackstagePassNeverExpires', () => {
+    const item = createAndUpdate(0, 42, 'Backstage passes to a TAFKAL80ETC concert');    
+    expect(0).toEqual(item.quality);
+  });
+
+  function createAndUpdate(sellIn: number, quality: number, name: string) {
     const item: Item[] = [{ name, sellIn, quality }];
     component.items = item; // 赋值 Input 数据
     fixture.detectChanges(); // 让 Angular 侦测数据变化
