@@ -24,18 +24,10 @@ export class GildedRoseComponent implements OnInit {
 
     for (let i = 0; i < this.items.length; i++) {
       item = this.items[i];
-
-      if (isNormalItem(item)) {
-        handleNormalItem(item);
-      } else {
-        if (isAgedBrie(item)) {
-          handleAgedBrie(item);
-        } else if (isBackStage(item)) {
-          handleBackStage(item);
-        } else if (isSulfuras(item)) {
-          handleSulfuras(item);
-        }
-      }
+      handleNormalItem(item);
+      handleAgedBrie(item);
+      handleBackStage(item);
+      handleSulfuras(item);
     }
 
     function isAgedBrie(item: Item) {
@@ -51,50 +43,59 @@ export class GildedRoseComponent implements OnInit {
       return !(isAgedBrie(item) || isBackStage(item) || isSulfuras(item));
     }
     function handleNormalItem(item: Item) {
-      item.sellIn--;
-      if (item.sellIn <= 0) {
-        item.quality = item.quality - 2;
-      } else {
-        item.quality--;
-      }
+      if (isNormalItem(item)) {
+        item.sellIn--;
+        if (item.sellIn <= 0) {
+          item.quality = item.quality - 2;
+        } else {
+          item.quality--;
+        }
 
-      if (item.quality < 0) {
-        item.quality = 0;
+        if (item.quality < 0) {
+          item.quality = 0;
+        }
       }
     }
-    function handleSulfuras(ite: Item) {}
+    function handleSulfuras(ite: Item) {
+      if (isSulfuras(item)) {
+      }
+    }
     function handleAgedBrie(ite: Item) {
-      item.sellIn--;
-      if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-        if (item.sellIn < 0) {
-          item.quality = item.quality + 2;
-        } else {
-          item.quality++;
+      if (isAgedBrie(item)) {
+        item.sellIn--;
+        if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
+          if (item.sellIn < 0) {
+            item.quality = item.quality + 2;
+          } else {
+            item.quality++;
+          }
         }
       }
     }
     function handleBackStage(ite: Item) {
-      item.sellIn--;
-      if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-        item.quality++;
-
-        if (
-          item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1 &&
-          item.quality < GildedRoseComponent.MAXIMUM_QUALITY
-        ) {
+      if (isBackStage(item)) {
+        item.sellIn--;
+        if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
           item.quality++;
+
+          if (
+            item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1 &&
+            item.quality < GildedRoseComponent.MAXIMUM_QUALITY
+          ) {
+            item.quality++;
+          }
+
+          if (
+            item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_2 &&
+            item.quality < GildedRoseComponent.MAXIMUM_QUALITY
+          ) {
+            item.quality++;
+          }
         }
 
-        if (
-          item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_2 &&
-          item.quality < GildedRoseComponent.MAXIMUM_QUALITY
-        ) {
-          item.quality++;
+        if (item.sellIn < 0) {
+          item.quality = 0;
         }
-      }
-
-      if (item.sellIn < 0) {
-        item.quality = 0;
       }
     }
   }
