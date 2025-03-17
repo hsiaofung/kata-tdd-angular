@@ -10,7 +10,10 @@ export class GildedRoseComponent implements OnInit {
   @Input() items: Item[] = [];
   name = '';
   sellIn = 0;
-  quality = 0;  
+  quality = 0; 
+  static readonly MAXIMUM_QUALITY = 50; 
+  static readonly BACKSTAGE_PASS_THRESHOLD_1 = 11; 
+  static readonly BACKSTAGE_PASS_THRESHOLD_2 = 6; 
 
   constructor() {}
 
@@ -28,20 +31,20 @@ export class GildedRoseComponent implements OnInit {
           }
         }
       } else {
-        if (this.items[i].quality < 50) {
+        if (this.items[i].quality < GildedRoseComponent.MAXIMUM_QUALITY) {
           this.items[i].quality = this.items[i].quality + 1;
 
           if (
             this.items[i].name === ItemName.BACKSTAGE
           ) {
-            if (this.items[i].sellIn < 11) {
-              if (this.items[i].quality < 50) {
+            if (this.items[i].sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1) {
+              if (this.items[i].quality < GildedRoseComponent.MAXIMUM_QUALITY) {
                 this.items[i].quality = this.items[i].quality + 1;
               }
             }
 
-            if (this.items[i].sellIn < 6) {
-              if (this.items[i].quality < 50) {
+            if (this.items[i].sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_2) {
+              if (this.items[i].quality < GildedRoseComponent.MAXIMUM_QUALITY) {
                 this.items[i].quality = this.items[i].quality + 1;
               }
             }
@@ -70,7 +73,7 @@ export class GildedRoseComponent implements OnInit {
               this.items[i].quality - this.items[i].quality;
           }
         } else {
-          if (this.items[i].quality < 50) {
+          if (this.items[i].quality < GildedRoseComponent.MAXIMUM_QUALITY) {
             this.items[i].quality = this.items[i].quality + 1;
           }
         }
