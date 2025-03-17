@@ -19,62 +19,65 @@ export class GildedRoseComponent implements OnInit {
 
   ngOnInit() {}
 
-  updateQuality() {
+  updateQuality() {    
+    let item: Item
+
     for (let i = 0; i < this.items.length; i++) {
+      item = this.items[i]      
       if (
-        !(this.items[i].name === ItemName.AGED_BRIE) &&
-        !(this.items[i].name === ItemName.BACKSTAGE)
+        !(item.name === ItemName.AGED_BRIE) &&
+        !(item.name === ItemName.BACKSTAGE)
       ) {
-        if (this.items[i].quality > 0) {
-          if (!(this.items[i].name === ItemName.SULFURAS)) {
-            this.items[i].quality = this.items[i].quality - 1;
+        if (item.quality > 0) {
+          if (!(item.name === ItemName.SULFURAS)) {
+            item.quality = item.quality - 1;
           }
         }
       } else {
-        if (this.items[i].quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-          this.items[i].quality = this.items[i].quality + 1;
+        if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
+          item.quality = item.quality + 1;
 
           if (
-            this.items[i].name === ItemName.BACKSTAGE
+            item.name === ItemName.BACKSTAGE
           ) {
-            if (this.items[i].sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1) {
-              if (this.items[i].quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-                this.items[i].quality = this.items[i].quality + 1;
+            if (item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1) {
+              if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
+                item.quality = item.quality + 1;
               }
             }
 
-            if (this.items[i].sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_2) {
-              if (this.items[i].quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-                this.items[i].quality = this.items[i].quality + 1;
+            if (item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_2) {
+              if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
+                item.quality = item.quality + 1;
               }
             }
           }
         }
       }
 
-      if (!(this.items[i].name === ItemName.SULFURAS)) {
-        this.items[i].sellIn = this.items[i].sellIn - 1;
+      if (!(item.name === ItemName.SULFURAS)) {
+        item.sellIn = item.sellIn - 1;
       }
 
-      if (this.items[i].sellIn < 0) {
-        if (!(this.items[i].name === ItemName.AGED_BRIE)) {
+      if (item.sellIn < 0) {
+        if (!(item.name === ItemName.AGED_BRIE)) {
           if (
             !(
-              this.items[i].name === ItemName.BACKSTAGE
+              item.name === ItemName.BACKSTAGE
             )
           ) {
-            if (this.items[i].quality > 0) {
-              if (!(this.items[i].name === ItemName.SULFURAS)) {
-                this.items[i].quality = this.items[i].quality - 1;
+            if (item.quality > 0) {
+              if (!(item.name === ItemName.SULFURAS)) {
+                item.quality = item.quality - 1;
               }
             }
           } else {
-            this.items[i].quality =
-              this.items[i].quality - this.items[i].quality;
+            item.quality =
+              item.quality - item.quality;
           }
         } else {
-          if (this.items[i].quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-            this.items[i].quality = this.items[i].quality + 1;
+          if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
+            item.quality = item.quality + 1;
           }
         }
       }
