@@ -10,26 +10,32 @@ export class GildedRoseComponent implements OnInit {
   @Input() items: Item[] = [];
   name = '';
   sellIn = 0;
-  quality = 0; 
-  static readonly MAXIMUM_QUALITY = 50; 
-  static readonly BACKSTAGE_PASS_THRESHOLD_1 = 11; 
-  static readonly BACKSTAGE_PASS_THRESHOLD_2 = 6; 
+  quality = 0;
+  static readonly MAXIMUM_QUALITY = 50;
+  static readonly BACKSTAGE_PASS_THRESHOLD_1 = 11;
+  static readonly BACKSTAGE_PASS_THRESHOLD_2 = 6;
 
   constructor() {}
 
   ngOnInit() {}
 
-  updateQuality() {    
-    let item: Item
+  updateQuality() {
+    let item: Item;
+    function isAgedBrie(item: Item) {
+      return item.name === ItemName.AGED_BRIE;
+    }
+    function isBackStage(item: Item) {
+      return item.name === ItemName.BACKSTAGE;
+    }
+    function isSulfuras(item: Item) {
+      return item.name === ItemName.SULFURAS;
+    }
 
     for (let i = 0; i < this.items.length; i++) {
-      item = this.items[i]      
-      if (
-        !(item.name === ItemName.AGED_BRIE) &&
-        !(item.name === ItemName.BACKSTAGE)
-      ) {
+      item = this.items[i];
+      if (!isAgedBrie(item) && !isBackStage(item)) {
         if (item.quality > 0) {
-          if (!(item.name === ItemName.SULFURAS)) {
+          if (!isSulfuras(item)) {
             item.quality = item.quality - 1;
           }
         }
@@ -37,9 +43,7 @@ export class GildedRoseComponent implements OnInit {
         if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
           item.quality = item.quality + 1;
 
-          if (
-            item.name === ItemName.BACKSTAGE
-          ) {
+          if (isBackStage(item)) {
             if (item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1) {
               if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
                 item.quality = item.quality + 1;
@@ -55,25 +59,20 @@ export class GildedRoseComponent implements OnInit {
         }
       }
 
-      if (!(item.name === ItemName.SULFURAS)) {
+      if (!isSulfuras(item)) {
         item.sellIn = item.sellIn - 1;
       }
 
       if (item.sellIn < 0) {
-        if (!(item.name === ItemName.AGED_BRIE)) {
-          if (
-            !(
-              item.name === ItemName.BACKSTAGE
-            )
-          ) {
+        if (!isAgedBrie(item)) {
+          if (!isBackStage(item)) {
             if (item.quality > 0) {
-              if (!(item.name === ItemName.SULFURAS)) {
+              if (!isSulfuras(item)) {
                 item.quality = item.quality - 1;
               }
             }
           } else {
-            item.quality =
-              item.quality - item.quality;
+            item.quality = item.quality - item.quality;
           }
         } else {
           if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
