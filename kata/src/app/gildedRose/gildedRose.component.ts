@@ -24,10 +24,10 @@ export class GildedRoseComponent implements OnInit {
 
     for (let i = 0; i < this.items.length; i++) {
       item = this.items[i];
-      handleNormalItem(item);
-      handleAgedBrie(item);
-      handleBackStage(item);
-      handleSulfuras(item);
+      handleIfNormalItem(item);
+      handleIfAgedBrie(item);
+      handleIfBackStage(item);
+      handleIfSulfuras(item);
     }
 
     function isAgedBrie(item: Item) {
@@ -42,7 +42,7 @@ export class GildedRoseComponent implements OnInit {
     function isNormalItem(item: Item) {
       return !(isAgedBrie(item) || isBackStage(item) || isSulfuras(item));
     }
-    function handleNormalItem(item: Item) {
+    function handleIfNormalItem(item: Item) {
       if (isNormalItem(item)) {
         item.sellIn--;
         if (item.sellIn <= 0) {
@@ -56,11 +56,11 @@ export class GildedRoseComponent implements OnInit {
         }
       }
     }
-    function handleSulfuras(ite: Item) {
+    function handleIfSulfuras(ite: Item) {
       if (isSulfuras(item)) {
       }
     }
-    function handleAgedBrie(ite: Item) {
+    function handleIfAgedBrie(ite: Item) {
       if (isAgedBrie(item)) {
         item.sellIn--;
         if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
@@ -72,7 +72,7 @@ export class GildedRoseComponent implements OnInit {
         }
       }
     }
-    function handleBackStage(ite: Item) {
+    function handleIfBackStage(ite: Item) {
       if (isBackStage(item)) {
         item.sellIn--;
         if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
