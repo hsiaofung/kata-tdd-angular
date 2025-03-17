@@ -55,19 +55,19 @@ export class GildedRoseComponent implements OnInit {
       }
 
       if (item.sellIn < 0) {
-        if (!isAgedBrie(item)) {
-          if (!isBackStage(item)) {
+        if (isAgedBrie(item)) {
+          if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
+            item.quality++;
+          }
+        } else {
+          if (isBackStage(item)) {
+            item.quality = 0;
+          } else {
             if (item.quality > 0) {
               if (!isSulfuras(item)) {
                 item.quality--;
               }
             }
-          } else {
-            item.quality = 0;
-          }
-        } else {
-          if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-            item.quality++;
           }
         }
       }
