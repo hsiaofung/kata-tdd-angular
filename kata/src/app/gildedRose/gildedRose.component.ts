@@ -24,7 +24,7 @@ export class GildedRoseComponent implements OnInit {
 
     for (let i = 0; i < this.items.length; i++) {
       item = this.items[i];
-      if (!isAgedBrie(item) && !isBackStage(item)) {
+      if (!(isAgedBrie(item) || isBackStage(item))) {
         if (item.quality > 0) {
           if (!isSulfuras(item)) {
             item.quality--;
