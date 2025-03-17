@@ -21,38 +21,29 @@ export class GildedRoseComponent implements OnInit {
 
   updateQuality() {
     let item: Item;
-    function isAgedBrie(item: Item) {
-      return item.name === ItemName.AGED_BRIE;
-    }
-    function isBackStage(item: Item) {
-      return item.name === ItemName.BACKSTAGE;
-    }
-    function isSulfuras(item: Item) {
-      return item.name === ItemName.SULFURAS;
-    }
 
     for (let i = 0; i < this.items.length; i++) {
       item = this.items[i];
       if (!isAgedBrie(item) && !isBackStage(item)) {
         if (item.quality > 0) {
           if (!isSulfuras(item)) {
-            item.quality = item.quality - 1;
+            item.quality--;
           }
         }
       } else {
         if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-          item.quality = item.quality + 1;
+          item.quality++;
 
           if (isBackStage(item)) {
             if (item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1) {
               if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-                item.quality = item.quality + 1;
+                item.quality++;
               }
             }
 
             if (item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_2) {
               if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-                item.quality = item.quality + 1;
+                item.quality++;
               }
             }
           }
@@ -68,18 +59,28 @@ export class GildedRoseComponent implements OnInit {
           if (!isBackStage(item)) {
             if (item.quality > 0) {
               if (!isSulfuras(item)) {
-                item.quality = item.quality - 1;
+                item.quality--;
               }
             }
           } else {
-            item.quality = item.quality - item.quality;
+            item.quality = 0;
           }
         } else {
           if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-            item.quality = item.quality + 1;
+            item.quality++;
           }
         }
       }
+    }
+
+    function isAgedBrie(item: Item) {
+      return item.name === ItemName.AGED_BRIE;
+    }
+    function isBackStage(item: Item) {
+      return item.name === ItemName.BACKSTAGE;
+    }
+    function isSulfuras(item: Item) {
+      return item.name === ItemName.SULFURAS;
     }
   }
 }
