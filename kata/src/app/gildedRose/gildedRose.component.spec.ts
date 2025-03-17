@@ -81,6 +81,11 @@ describe('GildedRoseComponent', () => {
     expect(0).toEqual(item.quality);
   });
 
+  it('conjuredDegradeTwiceAsFast', () => {
+    const item = createAndUpdate(15, 25, 'Conjured');    
+    expect(23).toEqual(item.quality);
+  });
+
   function createAndUpdate(sellIn: number, quality: number, name: string) {
     const item: Item[] = [{ name, sellIn, quality }];
     component.items = item; // 赋值 Input 数据

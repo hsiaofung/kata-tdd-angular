@@ -28,6 +28,7 @@ export class GildedRoseComponent implements OnInit {
       handleIfAgedBrie(item);
       handleIfBackStage(item);
       handleIfSulfuras(item);
+      handleIfConjured(item);
     }
 
     function isAgedBrie(item: Item) {
@@ -40,7 +41,10 @@ export class GildedRoseComponent implements OnInit {
       return item.name === ItemName.SULFURAS;
     }
     function isNormalItem(item: Item) {
-      return !(isAgedBrie(item) || isBackStage(item) || isSulfuras(item));
+      return !(isAgedBrie(item) || isBackStage(item) || isSulfuras(item) || isConjured(item));
+    }
+    function isConjured(item: Item) {
+      return item.name === ItemName.CONJURED;
     }
     function handleIfNormalItem(item: Item) {
       if (isNormalItem(item)) {
@@ -96,6 +100,12 @@ export class GildedRoseComponent implements OnInit {
         if (item.sellIn < 0) {
           item.quality = 0;
         }
+      }
+    }
+    function handleIfConjured(item: Item) {
+      if (isConjured(item)) {
+        item.sellIn--;
+        item.quality = item.quality - 2;
       }
     }
   }
