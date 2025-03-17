@@ -24,51 +24,16 @@ export class GildedRoseComponent implements OnInit {
 
     for (let i = 0; i < this.items.length; i++) {
       item = this.items[i];
-      if (!(isAgedBrie(item) || isBackStage(item))) {
-        if (item.quality > 0) {
-          if (!isSulfuras(item)) {
-            item.quality--;
-          }
-        }
+
+      if (isNormalItem(item)) {
+        handleNormalItem(item);
       } else {
-        if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-          item.quality++;
-
-          if (isBackStage(item)) {
-            if (item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1) {
-              if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-                item.quality++;
-              }
-            }
-
-            if (item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_2) {
-              if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-                item.quality++;
-              }
-            }
-          }
-        }
-      }
-
-      if (!isSulfuras(item)) {
-        item.sellIn = item.sellIn - 1;
-      }
-
-      if (item.sellIn < 0) {
         if (isAgedBrie(item)) {
-          if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
-            item.quality++;
-          }
-        } else {
-          if (isBackStage(item)) {
-            item.quality = 0;
-          } else {
-            if (item.quality > 0) {
-              if (!isSulfuras(item)) {
-                item.quality--;
-              }
-            }
-          }
+          handleAgedBrie(item);
+        } else if (isBackStage(item)) {
+          handleBackStage(item);
+        } else if (isSulfuras(item)) {
+          handleSulfuras(item);
         }
       }
     }
@@ -81,6 +46,56 @@ export class GildedRoseComponent implements OnInit {
     }
     function isSulfuras(item: Item) {
       return item.name === ItemName.SULFURAS;
+    }
+    function isNormalItem(item: Item) {
+      return !(isAgedBrie(item) || isBackStage(item) || isSulfuras(item));
+    }
+    function handleNormalItem(item: Item) {
+      item.sellIn--;
+      if (item.sellIn <= 0) {
+        item.quality = item.quality - 2;
+      } else {
+        item.quality--;
+      }
+
+      if (item.quality < 0) {
+        item.quality = 0;
+      }
+    }
+    function handleSulfuras(ite: Item) {}
+    function handleAgedBrie(ite: Item) {
+      item.sellIn--;
+      if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
+        if (item.sellIn < 0) {
+          item.quality = item.quality + 2;
+        } else {
+          item.quality++;
+        }
+      }
+    }
+    function handleBackStage(ite: Item) {
+      item.sellIn--;
+      if (item.quality < GildedRoseComponent.MAXIMUM_QUALITY) {
+        item.quality++;
+
+        if (
+          item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_1 &&
+          item.quality < GildedRoseComponent.MAXIMUM_QUALITY
+        ) {
+          item.quality++;
+        }
+
+        if (
+          item.sellIn < GildedRoseComponent.BACKSTAGE_PASS_THRESHOLD_2 &&
+          item.quality < GildedRoseComponent.MAXIMUM_QUALITY
+        ) {
+          item.quality++;
+        }
+      }
+
+      if (item.sellIn < 0) {
+        item.quality = 0;
+      }
     }
   }
 }
